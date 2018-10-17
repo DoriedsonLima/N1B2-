@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8" />
+	<title>Criança Alegria: Home</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+		<header id="main-header">
+			<div class="container">
+				<h1>Criança Alegria</h1>
+			</div>
+		</header>
+		<nav id="navbar">
+			<div class="container">
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="cadAluno.html">Cadastro Aluno</a></li>
+					<li><a href="cadProfessor.html">Cadastro Professor</a></li>
+					<li><a href="cadTurma.html">Cadastro Turma</a></li>
+					
+					<li><a href="about.html">About</a></li>
+				</ul>
+			</div>
+		</nav>
+		<section id="showcase">
+			<div class="container">
+				<h1>
+					Criança Alegria, aqui o seu filho aprende brincando!
+				</h1>
+			</div>
+		
+		</section>
+		<form class="my-form"  id="Profcad" method="Post" action="/N2B1_SiteEscola/ProfessorApi">
+			<div class="form-group">
+				<label for="tId">Pesquisar pelo ID: (1 a 15)</label>
+				<input type="number" name="Pesquisar" id="tId" min="0" max="100">
+			</div>
+			<div class="form-group">
+				<label for="tname">Nome: </label>
+				<input type="text" name="name" id="tname" required>
+			</div>
+			<div class="form-group">
+				<label for="tcpf">CPF: </label>
+				<input type="text" name="cpf" id="tcpf" required>
+			</div>
+			<div class="form-group">
+				<label for="tDataNasc">Data de Nascimento: </label>
+				<input type="date" name="DataNasc" id="tDataNasc">
+			</div>
+			<div class="form-group">
+				<label for="tCarteira">Numero da Carteira de Professor </label>
+				<input type="text" name="Carteira" id="tCarteira">
+			</div>
+			<div id="buttonCenter">
+				<input class="button" type="submit" value="Inserir">
+				<input class="button" type="submit" value="Deletar">
+				<input class="button" type="submit" value="Atualizar">
+				<input class="button" type="submit" value="Pesquisar">
+			</div>
+		</form>
+
+		<footer id="main-footer">
+			<p>Copyright &copy; 2018 Projeto de N2</p>
+		</footer>
+</body>
+</html>

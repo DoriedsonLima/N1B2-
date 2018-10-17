@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8" />
+	<title>Criança Alegria: Home</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+							
+			//consultar aluno -- ok funcionando !
+			$("#btnPesquizar").click(function(){
+			
+				var txtalunoID=$("#alunoID").val();
+				
+				$.get("AlunoApi_", {id:txtalunoID}, 
+					function(data,status){
+										
+					//document.querySelector('input[name=name]').value=(JSON.parse(data)).nomeAluno;
+					//JSON ObjDados= JSON.parse(data);
+					
+					$("#name").value()=data.nomeAluno;
+					
+					//$("#cpf").value=JSON.parse(data).cpfAluno;
+					
+					//$("#turmaID").data("turmaId",value());
+					//$("#name").data("nomeAluno",value());
+					//$("#cpf").data("cpfAluno",value());
+					
+					alert(data + "\nStatus: " + status);
+				});
+			});//fim btnPesquizar 
+				
+			
+			//salvar dados no banco	-- ok funcionando !
+			$("#btnSalvar").click(function(){
+					
+				var txtTurma=$("#turmaID").val();
+				var txtNome=$("#name").val();
+				var txtCpf=$("#cpf").val();
+				var txtData=$("#dataNasc").val();
+				
+				$.post("AlunoApi_",{turmaID:txtTurma, name:txtNome, cpf:txtCpf, DataNasc:txtData},
+				  function(data, status){
+				  alert("Data: " + data + "\nStatus: " + status);
+				});
+			});//fim btnsalvar
+			
+			// em teste !
+			$("#btnDeletar").click(function(){
+				
+				var txtalunoID=$("#alunoID").val();		
+				
+				$.delete("AlunoApi_", {id:txtalunoID}, 
+					function(data,status){
+					alert("Data: " + data + "\nStatus: " + status);
+				});
+			});//fim btnDeletar
+				
+			
+	}); //fim do script
+	</script>
+
+	
+</head>
+<body>
+		<header id="main-header">
+			<div class="container">
+				<h1>Criança Alegria</h1>
+			</div>
+		</header>
+		<nav id="navbar">
+			<div class="container">
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="cadAluno.html">Cadastro Aluno</a></li>
+					<li><a href="cadProfessor.html">Cadastro Professor</a></li>
+					<li><a href="cadTurma.html">Cadastro Turma</a></li>
+					
+					<li><a href="about.html">About</a></li>
+				</ul>
+			</div>
+		</nav>
+		<section id="showcase">
+			<div class="container">
+				<h1>
+					Criança Alegria, aqui o seu filho aprende brincando!
+				</h1>
+			</div>
+		</section>
+		
+
+		<!-- form  class="my-form" method="get" action ="/N2B1_SiteEscola/AlunoApi"! -->
+		<form class="my-form">
+			<div class="form-group">
+				<label for="id">Pesquisar pelo ID: (1 a 50): </label>
+				<input type="number" name="id" id="alunoID" min="1" max="50" autocomplete="off"/>
+			</div>
+			<div class="form-group">
+				<label for="turmaID">Turma ID: </label>
+				<input type="number" name="TurmaID" id="turmaID"/>
+			</div>
+			<div class="form-group">
+				<label for="name">Nome: </label>
+				<input type="text" name="tname" id="name" value=""/>
+			</div>
+			<div class="form-group">
+				<label for="cpf">CPF: </label>
+				<input type="text" name="tcpf" id="cpf"/>
+			</div>
+			<div class="form-group">
+				<label for="dataNasc">Data de Nascimento: </label>
+				<input type="date" name="DataNasc" id="dataNasc"/>
+			</div>
+			<div>
+				<input class="button" id="btnSalvar" type="submit" value="Salvar">
+				<input class="button" id="btnDeletar" type="submit" value="Deletar">
+				<input class="button" id="btnAtualizar" type="submit" value="Atualizar">
+				<input class="button" id="btnPesquizar" type="submit" value="Pesquisar">
+			</div>
+		</form>
+
+		<footer id="main-footer">
+			<p>Copyright &copy; 2018 Projeto de N2</p>
+		</footer>
+</body>
+</html>

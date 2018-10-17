@@ -1,0 +1,137 @@
+body{
+	background-color: #dedee5;
+	color: #000000;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	line-height: 1.6em;
+	margin: 0;
+}
+.container{
+	 width: 80%;
+	 margin:auto;
+	 overflow: hidden;
+}
+
+#container h2{
+	color:#f7feff;
+	size: 50px;
+	position: center;
+	margin-left: 25%;
+	line-height: 0.6em;
+	line-height: 1.0em;
+	word-wrap: inherit;
+}
+
+#main-header{
+	background-image:url('../images/top.jpg');
+	background-position: center right;
+	
+	background-color: #ffffb5;
+}
+#main-header {
+	color:#651;
+	size: 300px;
+}
+#navbar{	
+	background-color: #333;
+	color:#000000;
+}
+
+#navbar ul{
+	padding: 0;
+	list-style: none;
+}
+#navbar li{
+	display: inline;
+
+}
+#navbar a{
+	color:#fff;
+	text-decoration: none;
+	font-size: 18px;
+	padding-right: 15px;
+}
+#showcase{
+	background-image:url('../images/top.jpg');
+	background-position: center right;
+	min-height: 150px;
+	margin-bottom: 20px;
+	text-align: center;
+}
+#showcase h1{
+	color:	#65665b;
+	font-size: 40px;
+	line-height: 0.6em;
+	line-height: 1.0em;
+	word-wrap: all;
+	padding-top: 20px;
+	margin-left: 10%;
+
+}
+#main{
+	float: left;
+	width: 70%;
+	padding: 0 30px;
+	box-sizing: border-box;;
+}
+#sidebar{
+	float: right;
+	width: 30%;
+	background: #333;
+	min-width: 30px;
+	color:#fff;
+	padding: 10px;
+	box-sizing: border-box;
+}
+#main-footer{
+	background: #333;
+	color:#fff;
+	text-align: center;
+	padding: 5px;
+	margin-top:20px;
+}
+
+.button{
+
+	background-color: #333;
+	color: #fff;
+	padding: 10px 15px;
+	border:none;
+}
+.clr{
+	clear:both;
+}
+
+.my-form{
+	padding:20px;
+}
+.my-form .form-group{
+	margin-left: 40%;
+	padding-bottom: 15px;
+}
+.my-form label{
+	display: grid;
+}
+table, th, td {
+	margin-left: 35%;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+table#lista {
+    width: 100%;    
+    background-color: #f1f1c1;
+}
+@media(max-width: 600px){
+	#main{
+		width: 100%;
+		float:none;
+	}
+	#sidebar{
+		width: 100%;
+		float: none;
+	}
+}
