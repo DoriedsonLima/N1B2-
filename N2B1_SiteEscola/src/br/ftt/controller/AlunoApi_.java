@@ -65,20 +65,34 @@ public class AlunoApi_ extends HttpServlet {
 		try {
 			alunoDAO.insereAluno(a);
 		} catch (SQLException e) {
-			
 			e.printStackTrace();
 		}
 		
 		//retorno
-		response.getWriter().println(a.getNomeAluno());
-		//doGet(request, response);
+		response.getWriter().println(a.getNomeAluno());		
 	}
 
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
+		Aluno at = new Aluno();
+		
+		at.setId(request.getParameter("0"));
+		at.setNomeAluno(request.getParameter("name"));
+		at.setCpfAluno(request.getParameter("cpf"));
+		at.setDataNasc(request.getParameter("DataNasc"));
+		at.setTurmaId(request.getParameter("turmaID"));
+				
+		AlunoDAO alunoDAO = new AlunoDAO();
+		
+		try {
+			alunoDAO.updateAluno(at);
+		} catch (Exception e) {
+			throw new ArithmeticException("AlunoDAO: Update Aluno: " + e.getMessage());
+		}
+		
 	}
 
 	/**

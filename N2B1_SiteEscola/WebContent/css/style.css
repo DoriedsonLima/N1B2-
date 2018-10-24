@@ -6,6 +6,7 @@ body{
 	line-height: 1.6em;
 	margin: 0;
 }
+
 .container{
 	 width: 80%;
 	 margin:auto;
@@ -28,10 +29,12 @@ body{
 	
 	background-color: #ffffb5;
 }
+
 #main-header {
 	color:#651;
 	size: 300px;
 }
+
 #navbar{	
 	background-color: #333;
 	color:#000000;
@@ -41,16 +44,19 @@ body{
 	padding: 0;
 	list-style: none;
 }
+
 #navbar li{
 	display: inline;
 
 }
+
 #navbar a{
 	color:#fff;
 	text-decoration: none;
 	font-size: 18px;
 	padding-right: 15px;
 }
+
 #showcase{
 	background-image:url('../images/top.jpg');
 	background-position: center right;
@@ -58,6 +64,7 @@ body{
 	margin-bottom: 20px;
 	text-align: center;
 }
+
 #showcase h1{
 	color:	#65665b;
 	font-size: 40px;
@@ -68,12 +75,14 @@ body{
 	margin-left: 10%;
 
 }
+
 #main{
 	float: left;
 	width: 70%;
 	padding: 0 30px;
 	box-sizing: border-box;;
 }
+
 #sidebar{
 	float: right;
 	width: 30%;
@@ -83,6 +92,7 @@ body{
 	padding: 10px;
 	box-sizing: border-box;
 }
+
 #main-footer{
 	background: #333;
 	color:#fff;
@@ -98,6 +108,7 @@ body{
 	padding: 10px 15px;
 	border:none;
 }
+
 .clr{
 	clear:both;
 }
@@ -105,10 +116,21 @@ body{
 .my-form{
 	padding:20px;
 }
+
 .my-form .form-group{
 	margin-left: 40%;
 	padding-bottom: 15px;
+	high:30px;
+	widht:400px;
 }
+
+
+.my-form .form-group-number{
+	margin-left: 40%;
+	padding-bottom: 15px;
+	widht:150px;
+}
+
 .my-form label{
 	display: grid;
 }

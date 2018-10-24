@@ -7,28 +7,30 @@
 	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 	
 	<script type="text/javascript">
-	$(document).ready(function(){
+	$(document).ready(function() {
 							
 			//consultar aluno -- ok funcionando !
 			$("#btnPesquizar").click(function(){
-			
+				//debugger;
 				var txtalunoID=$("#alunoID").val();
 				
 				$.get("AlunoApi_", {id:txtalunoID}, 
 					function(data,status){
-										
-					//document.querySelector('input[name=name]').value=(JSON.parse(data)).nomeAluno;
-					//JSON ObjDados= JSON.parse(data);
+						
+					let JsonObject = JSON.parse(data);
 					
-					$("#name").value()=data.nomeAluno;
+					var dt = new Date((JsonObject.dataNasc)); 
 					
-					//$("#cpf").value=JSON.parse(data).cpfAluno;
+					var dia = dt.getDate();
+					var mes = dt.getMonth();
+					var ano = dt.getFullYear();
+															
+					$("#turmaID").val(JsonObject.turmaId);
+					$("#name").val(JsonObject.nomeAluno);
+					$("#cpf").val(JsonObject.cpfAluno);			
 					
-					//$("#turmaID").data("turmaId",value());
-					//$("#name").data("nomeAluno",value());
-					//$("#cpf").data("cpfAluno",value());
-					
-					alert(data + "\nStatus: " + status);
+					//$("#dataNasc").val(ano + "/" + mes + "/" + dia);									
+					//$("#dataNasc").val(JsonObject.dataNasc);
 				});
 			});//fim btnPesquizar 
 				
@@ -47,22 +49,49 @@
 				});
 			});//fim btnsalvar
 			
-			// em teste !
+			// deletar  aluno -- ok funcionando !
 			$("#btnDeletar").click(function(){
+				var e = $("#alunoID").val();
 				
-				var txtalunoID=$("#alunoID").val();		
-				
-				$.delete("AlunoApi_", {id:txtalunoID}, 
-					function(data,status){
-					alert("Data: " + data + "\nStatus: " + status);
-				});
+				$.ajax({
+					url :"AlunoApi_?id="+e,
+					type: "delete",
+					success: function() {
+						alert("Deletado!");
+					}
+				});				
 			});//fim btnDeletar
+			
+			//Atualiza dados no banco -- em teste !
+			$("#btnAtualizar").click(function(){
+				debugger;
+				var txtTurma=$("#turmaID").val();
+				var txtNome=$("#name").val();
+				var txtCpf=$("#cpf").val();
+				var txtData=$("#dataNasc").val();
+				
+				$.ajax({
+					url:'AlunoApi_',
+					type:'put',
+					data: "{turmaID:txtTurma, name:txtNome, cpf:txtCpf, DataNasc:txtData}",
+					
+					success: function(data, status){
+						alert('Dados atualizados !');
+					}
+					
+				});
+				
+				/*
+				$.put("AlunoApi_",{turmaID:txtTurma, name:txtNome, cpf:txtCpf, DataNasc:txtData},
+				  function(data, status){
+				  alert("Data: " + data + "\nStatus: " + status);
+				});
+				*/
+			});//fim atualizar
 				
 			
 	}); //fim do script
 	</script>
-
-	
 </head>
 <body>
 		<header id="main-header">
@@ -91,22 +120,21 @@
 		</section>
 		
 
-		<!-- form  class="my-form" method="get" action ="/N2B1_SiteEscola/AlunoApi"! -->
 		<form class="my-form">
 			<div class="form-group">
-				<label for="id">Pesquisar pelo ID: (1 a 50): </label>
+				<label for="id">Pesquisar pelo ID: (1 a 30): </label>
 				<input type="number" name="id" id="alunoID" min="1" max="50" autocomplete="off"/>
 			</div>
 			<div class="form-group">
-				<label for="turmaID">Turma ID: </label>
-				<input type="number" name="TurmaID" id="turmaID"/>
+				<label for="turmaID">Turma ID:</label>
+				<input type="number" name="TurmaID" id="turmaID" min="1" max ="4"/>
 			</div>
 			<div class="form-group">
-				<label for="name">Nome: </label>
+				<label for="name">Nome:</label>
 				<input type="text" name="tname" id="name" value=""/>
 			</div>
 			<div class="form-group">
-				<label for="cpf">CPF: </label>
+				<label for="cpf">CPF:</label>
 				<input type="text" name="tcpf" id="cpf"/>
 			</div>
 			<div class="form-group">
@@ -114,10 +142,10 @@
 				<input type="date" name="DataNasc" id="dataNasc"/>
 			</div>
 			<div>
-				<input class="button" id="btnSalvar" type="submit" value="Salvar">
-				<input class="button" id="btnDeletar" type="submit" value="Deletar">
-				<input class="button" id="btnAtualizar" type="submit" value="Atualizar">
-				<input class="button" id="btnPesquizar" type="submit" value="Pesquisar">
+				<input class="button" id="btnSalvar"    value="Salvar" style="cursor:pointer;" onclick="javascript: ">
+				<input class="button" id="btnDeletar"   value="Deletar" style="cursor:pointer;">
+				<input class="button" id="btnAtualizar" value="Atualizar" style="cursor:pointer;">
+				<input class="button" id="btnPesquizar" value="Pesquisar" style="cursor:pointer;">
 			</div>
 		</form>
 

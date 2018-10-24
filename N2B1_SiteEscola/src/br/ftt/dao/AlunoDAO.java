@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 import br.ftt.util.DbUtil;
 import br.ftt.model.Aluno;
@@ -19,29 +20,30 @@ public class AlunoDAO {
 	public void insereAluno(Aluno aluno) throws SQLException {
 						
 		try {
-			PreparedStatement p = conexao.prepareStatement("INSERT INTO ALUNO (NomeAluno, CPFAluno, DataNascimentoAluno, TurmaID ) VALUES (?, ?, ?, ?)");
+			PreparedStatement p = 
+			conexao.prepareStatement("INSERT INTO ALUNO (NomeAluno, CPFAluno, DataNascimentoAluno, TurmaID) VALUES (?, ?, ?, ?)");
 			
 			// Parameters start with 1
 			p.setString(1, aluno.getNomeAluno());
 			p.setString(2, aluno.getCpfAluno());
 			p.setDate(3, new java.sql.Date(aluno.getDataNasc().getTime()));
 			p.setInt(4, aluno.getTurmaId());
-				
 			p.execute();
 			p.close();
+			conexao.close();
 			
-			System.out.println("Aluno salvo com sucesso !");
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 			conexao.close();
 			throw new ArithmeticException("AlunoDAO: addAluno: " + e.getMessage());
 		}
-	}// inserir aluno
+	}// inserir aluno -- ok funcionando !
 	
 	public Aluno getAlunoId(String id) {
 		 
     	Aluno ap = new Aluno();
+    	//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     	
     	try {
             PreparedStatement preparedStatement = 
@@ -54,7 +56,9 @@ public class AlunoDAO {
                 ap.setId(rs.getString("ID"));
                 ap.setNomeAluno(rs.getString("NomeAluno"));
                 ap.setCpfAluno(rs.getString("CPFAluno"));
-                ap.setDataNasc(rs.getDate("DataNascimentoAluno"));
+                
+                ap.setDataNasc((rs.getDate("DataNascimentoAluno")));
+                
                 ap.setTurmaId(rs.getString("TurmaID"));
             }
             	            
@@ -64,7 +68,7 @@ public class AlunoDAO {
         }
        
     	return ap;
-    } //retorna pesquisa do aluno por id
+    } //retorna pesquisa do aluno por id -- ok funcionando !
  
 	
 	 public void deletarAluno(String id) {
@@ -75,7 +79,7 @@ public class AlunoDAO {
 	            
 	            // Parameters start with 1
 	            p.setInt(1, Integer.parseInt(id));
-	            p.execute();
+	        	p.execute();
 	            p.close();
 	            
 	            System.out.println("Dados do aluno deletados !");
@@ -84,30 +88,30 @@ public class AlunoDAO {
 	            e.printStackTrace();
 	            throw new ArithmeticException("AlunoDAO: deleteAluno: " + e.getMessage());	            
 	        }
-	    } //delete aluno
+	    } //delete aluno -- ok funcionando !
 	
 	 
 	 public void updateAluno(Aluno aluno) {
 	        try {
-	            PreparedStatement preparedStatement = 
+	            PreparedStatement p = 
 	            conexao.prepareStatement("UPDATE ALUNO SET NomeAluno=?, " 
 	                    		                          + "CPFAluno=?, " 
 	                    		                          + "DataNascimentoAluno=?, "
-	                    		                          + "TurmaID"	                    		                          	                    		                          + "VALUE=? " 
-	                                               + "WHERE ID=?");
-	            
+	                    		                          + "TurmaID=?"	                    		                          	                    		                          + "VALUE=? " 
+	                    		                          + "WHERE ID=?");
 	            // Parameters start with 1
-	         	preparedStatement.setString(1, aluno.getNomeAluno());
-				preparedStatement.setString(2, aluno.getCpfAluno());
-				preparedStatement.setDate(3, new java.sql.Date(aluno.getDataNasc().getTime()));
-				preparedStatement.setInt(4, aluno.getTurmaId());;
-	      	            
-	            preparedStatement.executeUpdate();
+	         	p.setString(1, aluno.getNomeAluno());
+				p.setString(2, aluno.getCpfAluno());
+				p.setDate(3, new java.sql.Date(aluno.getDataNasc().getTime()));
+				p.setInt(4, aluno.getTurmaId());
+				p.setInt(5,aluno.getId());
+	            p.executeUpdate();
+	            p.close();
+	            conexao.close();
 
 	        } catch (SQLException e) {
-	            //e.printStackTrace();
+	        	e.printStackTrace();
 	        	throw new ArithmeticException("AlunoDAO: updateAluno: " + e.getMessage());
-	            
 	        }
 	    } //update aluno
 	 
