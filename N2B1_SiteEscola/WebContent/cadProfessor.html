@@ -2,13 +2,94 @@
 <html lang="pt-br">
 <head>
 	<meta charset="utf-8" />
-	<title>Criança Alegria: Home</title>
+	<title>Criança Alegria</title>
+	<link rel="stylesheet" href="css/bootstrap.css"/>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	
+	<script type="text/javascript">
+	$(document).ready(function() {
+							
+			//consultar professor -- ok funcionando !
+			$("#btnPesquisarProf").click(function(){
+				debugger;
+				var txtProfId=$("#profId").val();
+				
+				$.get("ProfessorApi", {id:txtProfId}, 
+					function(data,status){
+						
+					let JsonObject = JSON.parse(data);
+					
+					if(JsonObject.id != 0) {
+						var dt = new Date((JsonObject.dataNasc));
+						var dia = dt.getDate();
+						var mes = dt.getMonth();
+						var ano = dt.getFullYear();
+							
+						$("#profName").val(JsonObject.nomeProfessor);
+						$("#profCpf").val(JsonObject.cpfProfessor);	
+						$("#profCarteira").val(JsonObject.registro);
+					}
+					else {
+						alert("Não há dados para este Id !");
+						return;
+					}
+				});
+			});//fim btnPesquizar 
+							
+			//salvar dados no banco	-- ???!
+			$("#btnSalvarProf").click(function(){
+					
+				var txtNome=$("#profName").val();
+				var txtCpf=$("#profCpf").val();
+				var txtRegistro=$("#profCarteira").val();
+				var txtData=$("#dataNasc").val();
+				
+				$.post("ProfessorApi",{name:txtNome, cpf:txtCpf, registro:txtRegistro ,DataNasc:txtData},
+				  function(data, status){
+				  alert("Data: " + data + "\nStatus: " + status);
+				});
+			});//fim btnsalvar
+			
+			//Atualizar dados no banco	
+			$("#btnAtualizarProf").click(function(){
+					
+				var txttProfId=$("#profId").val();
+				var txtNome=$("#profName").val();
+				var txtCpf=$("#profCpf").val();
+				var txtRegistro=$("#profCarteira").val();
+				var txtData=$("#dataNasc").val();
+				
+				$.put("ProfessorApi",{id:txtProfId, name:txtNome, cpf:txtCpf, registro:txtRegistro ,DataNasc:txtData},
+				  function(data, status){
+				  alert("Data: " + data + "\nStatus: " + status);
+				});
+			});//fim btnatualizar
+			
+			// deletar  aluno -- ??? !
+			$("#btnDeletarProf").click(function(){
+				var e = $("#txtProfId").val();
+				
+				$.ajax({
+					url :"ProfessorApi?id="+e,
+					type: "delete",
+					success: function() {
+						alert("Deletado!");
+					}
+				});				
+			});//fim btnDeletar
+			
+			//Atualiza dados no banco -- em teste !
+			
+			
+	}); //fim do script
+	</script>
+	
 </head>
 <body>
 		<header id="main-header">
 			<div class="container">
-				<h1>Criança Alegria</h1>
+				<h1><strong>Criança Alegria</strong></h1>
 			</div>
 		</header>
 		<nav id="navbar">
@@ -18,7 +99,6 @@
 					<li><a href="cadAluno.html">Cadastro Aluno</a></li>
 					<li><a href="cadProfessor.html">Cadastro Professor</a></li>
 					<li><a href="cadTurma.html">Cadastro Turma</a></li>
-					
 					<li><a href="about.html">About</a></li>
 				</ul>
 			</div>
@@ -31,37 +111,37 @@
 			</div>
 		
 		</section>
-		<form class="my-form"  id="Profcad" method="Post" action="/N2B1_SiteEscola/ProfessorApi">
-			<div class="form-group">
-				<label for="tId">Pesquisar pelo ID: (1 a 15)</label>
-				<input type="number" name="Pesquisar" id="tId" min="0" max="100">
+		<form class="my-form">
+			<div class="input-group mb-4">
+				<span class="input-group-text " id="inputGroup-sizing-md">ID professor:</span>
+				<input type="number" id="profId" min="0" max="50" placeholder=" 1 a 20" >
 			</div>
-			<div class="form-group">
-				<label for="tname">Nome: </label>
-				<input type="text" name="name" id="tname" required>
+			<div class="input-group mb-4">
+				<span class="input-group-text" id="inputGroup-sizing-md">Nome :</span>
+				<input type="text" id="profName" placeholder=" Professor" required>
 			</div>
-			<div class="form-group">
-				<label for="tcpf">CPF: </label>
-				<input type="text" name="cpf" id="tcpf" required>
+			<div class="input-group mb-4">
+				<span class="input-group-text" id="inputGroup-sizing-md">CPF :</span>
+				<input type="text" name="cpf" id="profCpf" placeholder=" 123.456.789.00" required>
 			</div>
-			<div class="form-group">
-				<label for="tDataNasc">Data de Nascimento: </label>
-				<input type="date" name="DataNasc" id="tDataNasc">
+			<div class="input-group mb-4">
+				<span class="input-group-text" id="inputGroup-sizing-md">Nº Registro :</span>
+				<input type="text" name="Carteira" id="profCarteira" placeholder="123.456.789">
 			</div>
-			<div class="form-group">
-				<label for="tCarteira">Numero da Carteira de Professor </label>
-				<input type="text" name="Carteira" id="tCarteira">
+			<div class="input-group mb-4">
+				<span class="input-group-text" id="inputGroup-sizing-md">Data Nasc.:</span>
+				<input type="date" name="DataNasc" id="profDataNasc">
 			</div>
 			<div id="buttonCenter">
-				<input class="button" type="submit" value="Inserir">
-				<input class="button" type="submit" value="Deletar">
-				<input class="button" type="submit" value="Atualizar">
-				<input class="button" type="submit" value="Pesquisar">
+				<input class="btn btn-warning" value="Deletar"   id="btnDeletarProf">
+				<input class="btn btn-primary" value="Salvar"    id="btnSalvarProf">
+				<input class="btn btn-primary" value="Atualizar" id="btnAtualizarProf">
+				<input class="btn btn-primary" value="Pesquisar" id="btnPesquisarProf">
 			</div>
 		</form>
 
 		<footer id="main-footer">
-			<p>Copyright &copy; 2018 Projeto de N2</p>
+			<p>Copyright &copy; 2018 FTT - EC7</p>
 		</footer>
 </body>
 </html>

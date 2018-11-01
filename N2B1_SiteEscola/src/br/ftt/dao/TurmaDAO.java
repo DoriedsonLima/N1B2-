@@ -9,38 +9,42 @@ import br.ftt.model.Turma;
 
 public class TurmaDAO {
 
-	private Connection connection;
+	private	Connection conexao;
 	
 	public TurmaDAO() {
-		connection = DbUtil.getConnection();
+		conexao = DbUtil.getConnection();
 	}
 	
-	
-	public void addTurma(Turma turma) {
+	// inserir turma funcionando !
+	public void insereTurma(Turma turma) throws SQLException {
 		
 		try {
-			PreparedStatement preparedStatement = connection
-            .prepareStatement("INSERT INTO TURMA (ID, Descricao, ProfessorID ) VALUES (?, ?, ?)");
+			PreparedStatement p = 
+			conexao.prepareStatement("INSERT INTO TURMA (Descricao, ProfessorID ) VALUES (?, ?)");
 			
 			// Parameters start with 1
-			preparedStatement.setString(1, turma.getDescricao());
-			preparedStatement.setInt(2, turma.getProfessorId());
-						
-			System.out.println("Turma salva com sucesso !");
+			p.setString(1, turma.getDescricao());
+			p.setInt(2, turma.getProfessorId());
+			p.execute();
+			p.close();
+			
+			conexao.close();
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
-			throw new ArithmeticException("TurmaDAO: addTurma: " + e.getMessage());
+			conexao.close();
+			throw new ArithmeticException("TurmaDAO: Insere Turma: " + e.getMessage());
 		}
-	}// inserir turma
+	}
 
+	// get turma funcionando !
 	public Turma getTurmaID(String id) {
 			 
 	    	Turma t = new Turma();
 	    	
 	    	try {
-	            PreparedStatement preparedStatement = connection.
-	                    prepareStatement("SELECT * FROM TURMA WHERE ID=?");
+	            PreparedStatement preparedStatement = 
+	            conexao.prepareStatement("SELECT * FROM TURMA WHERE ID=?");
 	            
 	            preparedStatement.setString(1,id); // envia id como string
 	            ResultSet rs = preparedStatement.executeQuery();
@@ -56,5 +60,23 @@ public class TurmaDAO {
 	            throw new ArithmeticException("TurmaDAO: getTurma: " + e.getMessage());
 	        }
 	    	return t;
-		}//retorna pesquisa turma pelo id
+		}
+	
+	// deletar turma funcionando ! 
+	public void deletarTurma(String id) {
+	        try {
+	            
+	        	PreparedStatement p = 
+	        	conexao.prepareStatement("DELETE FROM TURMA WHERE ID=?");
+	            
+	            // Parameters start with 1
+	            p.setInt(1, Integer.parseInt(id));
+	        	p.execute();
+	            p.close();          
+	           
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            throw new ArithmeticException("TurmaDAO: deleteTurma: " + e.getMessage());	            
+	        }
+	    } //delete turma 
 }

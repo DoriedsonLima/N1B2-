@@ -2,93 +2,102 @@
 <html lang="pt-br">
 <head>
 	<meta charset="utf-8" />
-	<title>Criança Alegria: Home</title>
+	<title>Criança Alegria</title>
+	<link rel="stylesheet" href="css/bootstrap.css"/>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-	
 	<script type="text/javascript">
 	$(document).ready(function() {
 							
 			//consultar aluno -- ok funcionando !
-			$("#btnPesquizar").click(function(){
-				//debugger;
+			$("#btnPesquisar").click(function(){
+				debugger;
 				var txtalunoID=$("#alunoID").val();
 				
 				$.get("AlunoApi_", {id:txtalunoID}, 
 					function(data,status){
-						
+					
 					let JsonObject = JSON.parse(data);
 					
-					var dt = new Date((JsonObject.dataNasc)); 
-					
-					var dia = dt.getDate();
-					var mes = dt.getMonth();
-					var ano = dt.getFullYear();
-															
-					$("#turmaID").val(JsonObject.turmaId);
-					$("#name").val(JsonObject.nomeAluno);
-					$("#cpf").val(JsonObject.cpfAluno);			
-					
-					//$("#dataNasc").val(ano + "/" + mes + "/" + dia);									
-					//$("#dataNasc").val(JsonObject.dataNasc);
+					if(JsonObject.turmaId != 0) {
+						var dt = new Date((JsonObject.dataNasc));
+						var dia = dt.getDate();
+						var mes = dt.getMonth();
+						var ano = dt.getFullYear();
+																				
+						$("#turmaID").val(JsonObject.turmaId);
+						$("#alunoName").val(JsonObject.nomeAluno);
+						$("#cpf").val(JsonObject.cpfAluno); 
+						//$("#dataNasc").val(dia + " / " + mes + " / " + ano);}	
+						$("#dataNasc").val(JsonObject.dataNasc);}	
+						
+						
+					else {
+						$("#turmaID").val("");
+						$("#name").val("");
+						$("#cpf").val(""); 
+						$("#dataNasc").val("");
+						
+						alert("Não há dados para este Id !");
+						return;
+						}
 				});
 			});//fim btnPesquizar 
-				
 			
 			//salvar dados no banco	-- ok funcionando !
 			$("#btnSalvar").click(function(){
-					
 				var txtTurma=$("#turmaID").val();
-				var txtNome=$("#name").val();
+				var txtNome=$("#alunoName").val();
 				var txtCpf=$("#cpf").val();
 				var txtData=$("#dataNasc").val();
 				
-				$.post("AlunoApi_",{turmaID:txtTurma, name:txtNome, cpf:txtCpf, DataNasc:txtData},
+				$.post("AlunoApi_",{turmaID:txtTurma, alunoName:txtNome, cpf:txtCpf, DataNasc:txtData},
 				  function(data, status){
-				  alert("Data: " + data + "\nStatus: " + status);
+				  alert("Aluno foi salvo !" + "\nStatus: " + status);
 				});
 			});//fim btnsalvar
 			
-			// deletar  aluno -- ok funcionando !
-			$("#btnDeletar").click(function(){
-				var e = $("#alunoID").val();
-				
-				$.ajax({
-					url :"AlunoApi_?id="+e,
-					type: "delete",
-					success: function() {
-						alert("Deletado!");
-					}
-				});				
-			});//fim btnDeletar
-			
-			//Atualiza dados no banco -- em teste !
+			//Atualizar dados no banco -- em teste - esta enviando null para o DAO !!! 
 			$("#btnAtualizar").click(function(){
 				debugger;
+				var txtalunoID=$("#alunoID").val();	
 				var txtTurma=$("#turmaID").val();
 				var txtNome=$("#name").val();
 				var txtCpf=$("#cpf").val();
-				var txtData=$("#dataNasc").val();
+				//var txtData=$("#dataNasc").val();
 				
-				$.ajax({
-					url:'AlunoApi_',
-					type:'put',
-					data: "{turmaID:txtTurma, name:txtNome, cpf:txtCpf, DataNasc:txtData}",
-					
-					success: function(data, status){
-						alert('Dados atualizados !');
-					}
-					
-				});
+				$.put("AlunoApi_",{alunoID:txtalunoID, turmaID:txtTurma, alunoName:txtNome, cpf:txtCpf},
+						  function(data, status){
+						  alert("Aluno : " + data.turmaId + " foi atualizado !" + "\nStatus: " + status);
+						});
 				
 				/*
-				$.put("AlunoApi_",{turmaID:txtTurma, name:txtNome, cpf:txtCpf, DataNasc:txtData},
-				  function(data, status){
-				  alert("Data: " + data + "\nStatus: " + status);
+				$.ajax({
+					url:"AlunoApi_",
+					method:"put",
+					//data:{id:txtalunoID, turmaID:txtTurma, name:txtNome, cpf:txtCpf},
+					data:{alunoID:$("#alunoID").val(), turmaID:$("#turmaID").val(), alunoName:$("#alunoName").val(), cpf:$("#cpf").val()},
+					dataType:"json",
+					success: function(){
+						alert("Dados atualizados !");
+					}
 				});
 				*/
 			});//fim atualizar
+			
+			// deletar  aluno -- ok funcionando !
+			$("#btnDeletar").click(function(){
+				//debugger;
+				var deletar = $("#alunoID").val();
 				
+				$.ajax({
+					url :"AlunoApi_?id="+ deletar,
+					type: "delete",
+					success: function() {
+						alert("Dados Deletados !");
+					}	
+				});				
+			});//fim btnDeletar
 			
 	}); //fim do script
 	</script>
@@ -96,7 +105,7 @@
 <body>
 		<header id="main-header">
 			<div class="container">
-				<h1>Criança Alegria</h1>
+				<h1><strong>Criança Alegria</strong></h1>
 			</div>
 		</header>
 		<nav id="navbar">
@@ -118,39 +127,39 @@
 				</h1>
 			</div>
 		</section>
-		
-
 		<form class="my-form">
-			<div class="form-group">
-				<label for="id">Pesquisar pelo ID: (1 a 30): </label>
-				<input type="number" name="id" id="alunoID" min="1" max="50" autocomplete="off"/>
+			<div class="input-group mb-4">
+					<span class="input-group-text " id="inputGroup-sizing-md">ID aluno:</span>
+					<input type="number" id="alunoID" min="1" max="40" autocomplete="off" placeholder=" 1 a 40"/>
 			</div>
-			<div class="form-group">
-				<label for="turmaID">Turma ID:</label>
-				<input type="number" name="TurmaID" id="turmaID" min="1" max ="4"/>
+			<div class="input-group mb-4">
+				<span class="input-group-text" id="inputGroup-sizing-md">Nome :</span>
+				<input type="text" id="alunoName" value="" placeholder=" Aluno"/>
 			</div>
-			<div class="form-group">
-				<label for="name">Nome:</label>
-				<input type="text" name="tname" id="name" value=""/>
+			<div class="input-group mb-4">
+				<span class="input-group-text" id="inputGroup-sizing-md">CPF :</span>
+				<input type="text" id="cpf" placeholder=" 123.456.789.00"/>
 			</div>
-			<div class="form-group">
-				<label for="cpf">CPF:</label>
-				<input type="text" name="tcpf" id="cpf"/>
+			<div class="input-group mb-4">
+				<span class="input-group-text" id="inputGroup-sizing-md">Turma :</span>
+				<input type="number" id="turmaID" min="1" max ="4" placeholder=" 1 a 4"/>
 			</div>
-			<div class="form-group">
-				<label for="dataNasc">Data de Nascimento: </label>
-				<input type="date" name="DataNasc" id="dataNasc"/>
+			<div class="input-group mb-4">
+				<span class="input-group-text" id="inputGroup-sizing-md">Data Nasc.:</span>
+				<input type="date" id="dataNasc"/>
 			</div>
+			
 			<div>
-				<input class="button" id="btnSalvar"    value="Salvar" style="cursor:pointer;" onclick="javascript: ">
-				<input class="button" id="btnDeletar"   value="Deletar" style="cursor:pointer;">
-				<input class="button" id="btnAtualizar" value="Atualizar" style="cursor:pointer;">
-				<input class="button" id="btnPesquizar" value="Pesquisar" style="cursor:pointer;">
+				<input class="btn btn-warning" id="btnDeletar"   value="Deletar"   style="cursor:pointer;">
+				<input class="btn btn-primary" id="btnSalvar"    value="Salvar"    style="cursor:pointer;">			
+				<input class="btn btn-primary" id="btnAtualizar" value="Atualizar" style="cursor:pointer;">
+				<input class="btn btn-primary" id="btnPesquisar" value="Pesquisar" style="cursor:pointer;">
+				
 			</div>
 		</form>
 
 		<footer id="main-footer">
-			<p>Copyright &copy; 2018 Projeto de N2</p>
+			<p>Copyright &copy; 2018 FTT - EC7</p>
 		</footer>
 </body>
 </html>

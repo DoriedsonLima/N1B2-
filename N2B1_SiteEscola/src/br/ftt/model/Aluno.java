@@ -33,6 +33,15 @@ public class Aluno {
 		this.setDataNasc(dataNasc);
 	}
 	
+	public Aluno(String id, String turmaId, String nomeAluno, String cpfAluno) {
+		super();
+		this.setId(id);
+		this.setTurmaId(turmaId);
+		this.setNomeAluno(nomeAluno);
+		this.setCpfAluno(cpfAluno);
+		this.setDataNasc(dataNasc);
+	}
+	
 	//Id
 	public int getId() {
 		return id;

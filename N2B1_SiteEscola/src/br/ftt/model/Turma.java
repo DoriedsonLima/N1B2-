@@ -27,7 +27,6 @@ public class Turma {
 	}
 
 
-
 	//Id turma
 	public int getTurmaId() {
 		return id;

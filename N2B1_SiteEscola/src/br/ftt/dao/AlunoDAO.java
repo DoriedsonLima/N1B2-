@@ -30,19 +30,19 @@ public class AlunoDAO {
 			p.setInt(4, aluno.getTurmaId());
 			p.execute();
 			p.close();
-			conexao.close();
 			
+			conexao.close();
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 			conexao.close();
-			throw new ArithmeticException("AlunoDAO: addAluno: " + e.getMessage());
+			throw new ArithmeticException("AlunoDAO: isereAluno: " + e.getMessage());
 		}
 	}// inserir aluno -- ok funcionando !
 	
 	public Aluno getAlunoId(String id) {
 		 
-    	Aluno ap = new Aluno();
+    	Aluno a = new Aluno();
     	//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     	
     	try {
@@ -53,13 +53,12 @@ public class AlunoDAO {
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
-                ap.setId(rs.getString("ID"));
-                ap.setNomeAluno(rs.getString("NomeAluno"));
-                ap.setCpfAluno(rs.getString("CPFAluno"));
+                a.setId(rs.getString("ID"));
+                a.setNomeAluno(rs.getString("NomeAluno"));
+                a.setCpfAluno(rs.getString("CPFAluno"));
                 
-                ap.setDataNasc((rs.getDate("DataNascimentoAluno")));
-                
-                ap.setTurmaId(rs.getString("TurmaID"));
+                a.setDataNasc((rs.getDate("DataNascimentoAluno")));
+                a.setTurmaId(rs.getString("TurmaID"));
             }
             	            
         } catch (SQLException e) {
@@ -67,7 +66,7 @@ public class AlunoDAO {
             throw new ArithmeticException("AlunoDAO: getAluno: " + e.getMessage());
         }
        
-    	return ap;
+    	return a;
     } //retorna pesquisa do aluno por id -- ok funcionando !
  
 	
@@ -80,9 +79,8 @@ public class AlunoDAO {
 	            // Parameters start with 1
 	            p.setInt(1, Integer.parseInt(id));
 	        	p.execute();
-	            p.close();
-	            
-	            System.out.println("Dados do aluno deletados !");
+	            p.close();          
+	           
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
@@ -91,7 +89,7 @@ public class AlunoDAO {
 	    } //delete aluno -- ok funcionando !
 	
 	 
-	 public void updateAluno(Aluno aluno) {
+	 public void updateAluno(Aluno aluno) throws SQLException {
 	        try {
 	            PreparedStatement p = 
 	            conexao.prepareStatement("UPDATE ALUNO SET NomeAluno=?, " 

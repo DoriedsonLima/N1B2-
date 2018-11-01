@@ -39,8 +39,7 @@ public class ProfessorApi extends HttpServlet {
 		Professor professorVO = professorDAO.getProfessor(request.getParameter("id"));
 		
 		Gson professorGson = new GsonBuilder().create(); // cria objeto Gson professor
-		
-		response.getWriter().append("GET Professor ! ").append(request.getContextPath()).append("\n\n");
+				
 		response.getWriter().append(professorGson.toJson(professorVO, Professor.class));
 		
 	}

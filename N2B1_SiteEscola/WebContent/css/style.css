@@ -8,14 +8,14 @@ body{
 }
 
 .container{
-	 width: 80%;
-	 margin:auto;
-	 overflow: hidden;
+	width: 80%;
+	margin:auto;
+	overflow: hidden;
 }
 
 #container h2{
-	color:#f7feff;
-	size: 50px;
+	color:#f7fedd;
+	size:50px;
 	position: center;
 	margin-left: 25%;
 	line-height: 0.6em;
@@ -26,47 +26,46 @@ body{
 #main-header{
 	background-image:url('../images/top.jpg');
 	background-position: center right;
-	
-	background-color: #ffffb5;
+	background-color: #fffd50;
 }
 
 #main-header {
 	color:#651;
-	size: 300px;
+	size: 400px;
 }
 
 #navbar{	
-	background-color: #333;
-	color:#000000;
+	padding: 10px;
 }
 
 #navbar ul{
-	padding: 0;
+	padding: 10px;
+	padding: 20;
 	list-style: none;
 }
 
 #navbar li{
+	padding: 10px;
 	display: inline;
-
 }
 
 #navbar a{
-	color:#fff;
+	color:	#000000;
 	text-decoration: none;
-	font-size: 18px;
-	padding-right: 15px;
+	font-size: 20px;
+	padding-right: 18px;
 }
 
 #showcase{
 	background-image:url('../images/top.jpg');
 	background-position: center right;
-	min-height: 150px;
+	min-height: 120px;
 	margin-bottom: 20px;
 	text-align: center;
 }
 
 #showcase h1{
-	color:	#65665b;
+	color:	#000000;
 	font-size: 40px;
 	line-height: 0.6em;
 	line-height: 1.0em;
@@ -94,20 +93,13 @@ body{
 }
 
 #main-footer{
-	background: #333;
+	background: #335;
 	color:#fff;
 	text-align: center;
-	padding: 5px;
+	padding: 10px;
 	margin-top:20px;
 }
 
-.button{
-
-	background-color: #333;
-	color: #fff;
-	padding: 10px 15px;
-	border:none;
-}
 
 .clr{
 	clear:both;
@@ -118,10 +110,8 @@ body{
 }
 
 .my-form .form-group{
-	margin-left: 40%;
-	padding-bottom: 15px;
-	high:30px;
-	widht:400px;
+	margin-left: 50%;
+	padding-bottom: 20px;
 }
 
 
@@ -131,9 +121,16 @@ body{
 	widht:150px;
 }
 
+.my-form .form-group input{
+	border-radius:4px;
+    background:#006699;
+    color:#ffffff;
+}
+
 .my-form label{
 	display: grid;
 }
+
 table, th, td {
 	margin-left: 35%;
     border: 1px solid black;
@@ -147,6 +144,7 @@ table#lista {
     width: 100%;    
     background-color: #f1f1c1;
 }
+
 @media(max-width: 600px){
 	#main{
 		width: 100%;
